@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title %}
+Dashboard
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="float-md-right">
+        <a href="{{ url_for('Dashboard.create_team') }}" class="btn btn-primary">Create Team</a>
+    </div>
+    <div class="card-deck">
+        {% if teams %}
+        {% for team in teams %}
+        <a href="{{ url_for('Team.team_manage', public_id=team.public_id) }}" class="card">
+            <img class="card-img-top" src="/static/uploads/{{ team.logo }}" alt="Card image cap" width="239px" height="200px" >
+            <div class="card-body">
+                <h5 class="card-title">{{ team.name }}</h5>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

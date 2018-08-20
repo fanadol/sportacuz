@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %} Register Role
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <p class="h1">Who Are You?</p>
+  <div class="row">
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Coach</h5>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="{{ url_for('Auth.register_coach') }}" class="btn btn-primary">Register as Coach</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Athlete</h5>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="{{ url_for('Auth.register_athlete') }}" class="btn btn-primary">Register as Athlete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

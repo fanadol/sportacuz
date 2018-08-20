@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Team Detail
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-2">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="/static/uploads/{{ team.logo }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ team.name }}</h5>
+                <p class="card-text"></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ team.invite_code }}</li>
+                <li class="list-group-item">{{ team.created_at }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Number</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in team.squad %}
+                    <tr>
+                        <th scope="row">{{ person.jersey_number }}</th>
+                        <td>{{ person.username }}</td>
+                        <td>
+                            <a href="#" class="btn btn-danger">Kick</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+{% endblock %}

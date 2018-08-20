@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sportacus - Home
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Sportacus</h1>
+    <p class="lead">Where detail matters</p>
+    <hr class="my-4">
+    <p>Join our community now!</p>
+    <a href="{{ url_for('Auth.register_role') }}" class="btn btn-primary btn-lg" role="button">Register</a>
+  </div>
+</div>
+{% endblock %}
