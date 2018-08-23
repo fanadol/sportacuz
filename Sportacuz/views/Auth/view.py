@@ -62,34 +62,6 @@ def register_athlete():
     return render_template('register_athlete.html')
 
 
-@Auth.route('/login', methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        url = 'http://localhost:5000/api/auth/login'
-        email = request.form.get('email')
-        password = request.form.get('password')
-        role = request.form.get('role')
-        payload = {
-            'email': email,
-            'password': password,
-            'role': role
-        }
-        r = requests.post(url, json=payload)
-        if r.status_code == 200:
-            reqjson = r.json()
-            session['Authorization'] = reqjson['Authorization']
-            session['Role'] = reqjson['Role']
-            flash('Login success', 'success')
-            if reqjson['Role'] == 'coach':
-                return redirect(url_for('Dashboard.dashboard_coach'))
-            else:
-                return redirect(url_for('Dashboard.dashboard_athlete'))
-        else:
-            flash('Login failed, please check your email, password and role', 'danger')
-            return redirect(url_for('Auth.login'))
-    return render_template('login.html')
-
-
 @Auth.route('/logout')
 def logout():
     url = 'http://localhost:5000/api/auth/logout'
@@ -105,3 +77,30 @@ def logout():
         print(r.status_code)
         flash('Something Went Wrong', 'danger')
         return redirect(url_for('LandingPage.index'))
+
+# @Auth.route('/login', methods=["GET", "POST"])
+# def login():
+#     if request.method == "POST":
+#         url = 'http://localhost:5000/api/auth/login'
+#         email = request.form.get('email')
+#         password = request.form.get('password')
+#         role = request.form.get('role')
+#         payload = {
+#             'email': email,
+#             'password': password,
+#             'role': role
+#         }
+#         r = requests.post(url, json=payload)
+#         if r.status_code == 200:
+#             reqjson = r.json()
+#             session['Authorization'] = reqjson['Authorization']
+#             session['Role'] = reqjson['Role']
+#             flash('Login success', 'success')
+#             if reqjson['Role'] == 'coach':
+#                 return redirect(url_for('Dashboard.dashboard_coach'))
+#             else:
+#                 return redirect(url_for('Dashboard.dashboard_athlete'))
+#         else:
+#             flash('Login failed, please check your email, password and role', 'danger')
+#             return redirect(url_for('Auth.login'))
+#     return render_template('login.html')

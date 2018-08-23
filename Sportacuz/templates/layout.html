@@ -2,60 +2,114 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>{% block title %}{% endblock %}</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary justify-content-between">
-    {% if session['Authorization'] and session['Role']=='coach' %}
-    <a class="navbar-brand" href="{{ url_for('Dashboard.dashboard_coach') }}">SPORTACUS</a>
-    {% else %}
-    <a class="navbar-brand" href="{{ url_for('Dashboard.dashboard_athlete') }}">SPORTACUS</a>
-    {% endif %}
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav mr-auto">
-        <a class="nav-item nav-link active" href="">Manage <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">Statistic</a>
-        <a class="nav-item nav-link" href="#">Calendar</a>
-        <a class="nav-item nav-link disabled" href="#">Assessment</a>
-      </div>
-      <form action="" class="form-inline my-2 my-lg-0">
-        {% if session['Authorization'] %}
-        <a class="btn btn-outline-light my-2 my-sm-0" href="{{ url_for('Auth.logout') }}">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary justify-content-between">
+    <div class="container">
+        {% if session['Authorization'] and session['Role']=='coach' %}
+        <a class="navbar-brand" href="{{ url_for('Dashboard.dashboard_coach') }}">SPORTACUS</a>
+        {% elif session['Authorization'] and session['Role']=='athlete' %}
+        <a class="navbar-brand" href="{{ url_for('Dashboard.dashboard_athlete') }}">SPORTACUS</a>
         {% else %}
-        <a class="btn btn-outline-light my-2 my-sm-0" href="{{ url_for('Auth.login') }}">Login</a>
-        <a class="btn btn-outline-light my-2 my-sm-0" href="{{ url_for('Auth.register_role') }}">Register</a>
+        <a class="navbar-brand" href="{{ url_for('LandingPage.index') }}">SPORTACUS</a>
         {% endif %}
-      </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link active" href="">Manage <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Statistic</a>
+                <a class="nav-item nav-link" href="#">Calendar</a>
+                <a class="nav-item nav-link disabled" href="#">Assessment</a>
+            </div>
+            {% if session['Authorization'] %}
+            <a class="btn btn-outline-light my-2 my-sm-0" href="{{ url_for('Auth.logout') }}">Logout</a>
+            {% else %}
+            <div class="dropdown-container">
+                <button class="btn btn-outline-light my-2 my-sm-0 btn-dropdown" aria-haspopup="true" aria-expanded="false"
+                        id="btnLogin" type="button" data-toggle="dropdown">Login
+                </button>
+                <div class="dropdown-menu">
+                    <form class="px-4 py-3" action="{{ url_for('LandingPage.index') }}" method="post">
+                        <div class="form-group">
+                            <label for="exampleDropdownFormEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleDropdownFormEmail1"
+                                   placeholder="email@example.com" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleDropdownFormPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleDropdownFormPassword1"
+                                   placeholder="Password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Login As</label>
+                            <select name="role" id="role" class="form-control">
+                                <option value="coach" selected>Coach</option>
+                                <option value="athlete">Athlete</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                            <label class="form-check-label" for="dropdownCheck">
+                                Remember me
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">New around here? Sign up</a>
+                    <a class="dropdown-item" href="#">Forgot password?</a>
+                </div>
+                <a class="btn btn-outline-light my-2 my-sm-0" href="{{ url_for('Auth.register_role') }}">Register</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
-  </nav>
-  <div>
+</nav>
+<div>
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}" role="alert">{{ message }}</ul>
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" role="alert">{{ message }}</ul>
         {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
-  <div>
-    {% block content %} {% endblock %}
-  </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div>
+        {% block content %} {% endblock %}
+    </div>
+</div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).on('click', '.dropdown-menu', function (e) {
+        e.stopPropagation();
+    });
+
+</script>
 </body>
 
 </html>

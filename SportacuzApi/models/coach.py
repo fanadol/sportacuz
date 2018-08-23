@@ -16,6 +16,7 @@ class Coach(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     phone_number = db.Column(db.String(20))
     teams = db.relationship('Team', backref='coach', lazy=True)
+    memo = db.relationship('Memo', backref='coach', lazy=True)
 
     @property
     def password(self):

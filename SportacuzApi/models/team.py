@@ -14,3 +14,4 @@ class Team(db.Model):
     invite_code = db.Column(db.String(5), unique=True)
     created_at = db.Column(db.DateTime, nullable=False)
     squad = db.relationship('Athlete', backref='team', lazy=True)
+    memo = db.relationship('Memo', backref='team', lazy=True)

@@ -41,3 +41,15 @@ class AuthDTO:
         'password': fields.String(required=True, description='user password'),
         'role': fields.String(required=True, description='user role coach or athlete')
     })
+
+
+class MemoDTO:
+    api = Namespace('Memo', description='memo namespace')
+    memo = api.model('memo_DTO_model', {
+        'type': fields.String(required=True, description='type of the memo'),
+        'duration': fields.String(required=True, description='duration of the event'),
+        'date': fields.String(required=True, description='date of the event'),
+        'location': fields.String(required=True, description='location of the event'),
+        'coach': fields.String(description='who make the memo and become the coach'),
+        'team': fields.String(required=True, description='team where the memo made')
+    })

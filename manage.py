@@ -3,7 +3,11 @@ from flask_migrate import Migrate, MigrateCommand
 import unittest
 
 from Sportacuz import db, create_app
+from SportacuzApi.models import athlete
+from SportacuzApi.models import blacklist
 from SportacuzApi.models import coach
+from SportacuzApi.models import memo
+from SportacuzApi.models import team
 
 app = create_app('dev')
 manager = Manager(app)
